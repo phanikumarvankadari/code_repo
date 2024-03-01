@@ -1,0 +1,36 @@
+  LOOP AT lt_return REFERENCE INTO DATA(ld_return).
+   IF ld_return->id <> '/LIME/CORE' OR
+    ld_return->number <> '094'. "Start transaction message
+    IF ld_return->type = 'E' OR ld_return->type = 'A'.
+     DATA(lv_xerror) = abap_true.
+    ENDIF.
+   ENDIF.
+   APPEND ld_return->message TO gt_message_log.
+  ENDLOOP.
+
+
+
+
+APPEND VALUE #( program = 'SAPLCN10'
+         dynpro  = '3000'
+         dynbegin = abap_true ) TO lt_bdcdata.
+
+
+
+
+
+
+
+
+
+  setmsg ls_amerrdat-msgty ls_amerrdat-msgid ls_amerrdat-msgno
+       ls_amerrdat-msgv1 ls_amerrdat-msgv2 ls_amerrdat-msgv3 ls_amerrdat-msgv4.
+
+
+DELETE FROM demo_update.
+INSERT demo_update FROM @( VALUE #( id = 'X' ) ).
+
+UPDATE demo_update FROM @( VALUE #( id = 'X' col1 = 100
+col2 = 200
+col3 = 300
+col4 = 400 ) ).

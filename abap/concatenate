@@ -1,0 +1,2 @@
+lf_valid_from = |{ ls_stko_loop-valid_from+6 }{ ls_stko_loop-valid_from+3(2) }{ ls_stko_loop-valid_from(2) }|.
+      lf_valid_to   = |{ ls_stko_loop-valid_to+6   }{ ls_stko_loop-valid_to+3(2)   }{ ls_stko_loop-valid_to(2)   }|.

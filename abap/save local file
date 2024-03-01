@@ -1,0 +1,45 @@
+lf_xlsx_document_binary = me->go_xlsx_document->get_package_data( ).
+
+    DO.
+
+     cl_openxml_helper=>browse_local_file_save(
+      EXPORTING
+       iv_title   = c_save_dialog_title
+       iv_filename  = '*.xls*'
+       iv_extpattern = c_filetype_xlsm
+      RECEIVING
+       rv_filename  = lf_file_path
+     ).
+
+     lv_proof_path = lf_file_path.
+     TRANSLATE lv_proof_path TO UPPER CASE.
+
+     TRY .
+
+       IF lv_proof_path IS INITIAL.
+        EXIT.
+       ELSE.
+        lv_len = strlen( lv_proof_path ) .
+        ADD -5 TO lv_len .
+        IF lv_proof_path+lv_len(5) CP '.XLS+'
+        OR lf_file_path IS INITIAL.
+         EXIT.
+        ELSE.
+
+         MESSAGE i006(zpp_excel_import) WITH 'XLSM' .
+         CLEAR: lf_file_path.
+
+        ENDIF.
+       ENDIF.
+
+      CATCH cx_root.
+       CLEAR: lf_file_path.
+       EXIT .
+
+     ENDTRY.
+
+    ENDDO.
+
+
+
+

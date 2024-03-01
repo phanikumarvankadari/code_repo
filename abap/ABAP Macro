@@ -1,0 +1,43 @@
+
+
+
+
+
+
+
+
+
+
+
+
+* Makro
+ DEFINE setmsg.
+  CLEAR gs_msg.
+  gs_msg-type  = &1.
+  gs_msg-id   = &2.
+  gs_msg-number = &3.
+  MESSAGE ID &2 TYPE &1 NUMBER &3
+      WITH &4 &5 &6 &7 INTO gs_msg-message.
+  gs_msg-message_v1 = &4.
+  gs_msg-message_v2 = &5.
+  gs_msg-message_v3 = &6.
+  gs_msg-message_v4 = &7.
+  APPEND gs_msg TO t_messages.
+
+ END-OF-DEFINITION.
+
+
+
+
+
+
+
+DEFINE m_message.
+  case sy-subrc.
+   when 0.
+   when 1.
+    message id sy-msgid type sy-msgty number sy-msgno
+        with sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+   when others. raise upload_ole.
+  endcase.
+ END-OF-DEFINITION.

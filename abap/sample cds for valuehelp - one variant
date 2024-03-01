@@ -1,0 +1,29 @@
+@AbapCatalog.viewEnhancementCategory: [#NONE]
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'BOM details - ship list'
+@Metadata.ignorePropagatedAnnotations: true
+@ObjectModel.usageType:{
+    serviceQuality: #X,
+    sizeCategory: #S,
+    dataClass: #MIXED
+}
+define view entity zc_pp_bom_ship_list
+  as select from iflot
+    join         t370k_t on  t370k_t.eqart = iflot.eqart
+                         and t370k_t.spras = $session.system_language
+//    join         iloa    on iloa.iloan = iflot.iloan
+  association [0..*] to zca_fl_topology_texts as _text on $projection.tplnr = _text.tplnr
+{
+  key iflot.tplnr,
+      iflot.eqart,
+      t370k_t.eartx,
+      @ObjectModel.text.association: '_text'
+      _text[1: spras = $session.system_language].pltxt as pltxt,
+      iflot.zzca_sysno_ctrl,
+      iflot.zzca_flgrp_ctrl,
+      iflot.zzca_hull_no
+//      iloa.bukrs
+}
+where
+      iflot.fltyp = 'S'
+  and iflot.eqart = 'TP1'
